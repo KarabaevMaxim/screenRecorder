@@ -1,12 +1,12 @@
 ﻿using System.Windows;
-using Appl.Configuration;
+using Application.Configuration;
 
-namespace Appl
+namespace Application
 {
   /// <summary>
   /// Interaction logic for App.xaml
   /// </summary>
-  public partial class App : Application
+  public partial class App : System.Windows.Application
   {
     public static ConfigService ConfigService { get; private set; } = null!;
 

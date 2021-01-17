@@ -1,7 +1,7 @@
 ﻿using System;
 using ScreenRecorderLib;
 
-namespace Appl.Record
+namespace Application.Record
 {
   public class RecordService
   {

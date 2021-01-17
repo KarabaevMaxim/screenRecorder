@@ -1,4 +1,4 @@
-﻿namespace Appl.OtherServices
+﻿namespace Application.OtherServices
 {
   public class LocalizationService
   {

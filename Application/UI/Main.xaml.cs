@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Threading;
-using Appl.OtherServices;
-using Appl.Record;
+using Application.OtherServices;
+using Application.Record;
 using ScreenRecorderLib;
 
-namespace Appl
+namespace Application.UI
 {
   public partial class Main : Window
   {

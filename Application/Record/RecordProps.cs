@@ -1,4 +1,4 @@
-﻿namespace Appl.Record
+﻿namespace Application.Record
 {
   public record RecordProps
   {

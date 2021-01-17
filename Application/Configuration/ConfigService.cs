@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Appl.Configuration
+namespace Application.Configuration
 {
   public class ConfigService
   {

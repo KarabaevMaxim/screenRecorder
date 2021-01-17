@@ -1,4 +1,4 @@
-﻿namespace Appl.Configuration
+﻿namespace Application.Configuration
 {
   public record Config
   {

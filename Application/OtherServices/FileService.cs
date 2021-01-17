@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
-using Appl.Configuration;
+using Application.Configuration;
 
-namespace Appl.OtherServices
+namespace Application.OtherServices
 {
   public class FileService
   {
