@@ -30,7 +30,7 @@ namespace Appl.Record
           AudioInputDevice = props.AudioInputDevice
         }
       };
-      // _recorder = Recorder.CreateRecorder(options);
+      _recorder = Recorder.CreateRecorder(options);
       _recorder = Recorder.CreateRecorder();
       _recorder.OnRecordingComplete += (sender, args) => Completed?.Invoke(args.FilePath);
       _recorder.OnRecordingFailed += (sender, args) => Failed?.Invoke(args.Error);

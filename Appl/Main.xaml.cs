@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using Appl.OtherServices;
 using Appl.Record;
 using ScreenRecorderLib;
@@ -11,13 +12,29 @@ namespace Appl
   {
     private readonly RecordService _recordService;
     private readonly FileService _fileService;
+    private readonly DispatcherTimer _timer;
+    private readonly TimeSpan _timerInterval = TimeSpan.FromSeconds(1);
     private bool _isPaused;
+    private TimeSpan _timeElapsed;
+    
+    private TimeSpan TimeElapsed
+    {
+      get => _timeElapsed;
+      set
+      {
+        _timeElapsed = value;
+        TimerLbl.Content = _timeElapsed.ToString("hh':'mm':'ss");
+      }
+    }
     
     public Main()
     {
       InitializeComponent();
       _recordService = new RecordService();
       _fileService = new FileService(App.ConfigService);
+      _timer = new DispatcherTimer();
+      _timer.Tick += TimerOnTick;
+      _timer.Interval = _timerInterval;
 
       StartStopBtn.Click += StartStopBtnOnClick;
       PauseResumeBtn.Click += PauseResumeBtnOnClick;
@@ -29,6 +46,8 @@ namespace Appl
       PauseResumeBtn.Content = LocalizationService.Pause;
       StatusLbl.Content = LocalizationService.NotRecording;
     }
+
+    private void TimerOnTick(object? sender, EventArgs e) => TimeElapsed += _timerInterval;
 
     private void RecordServiceOnCompleted(string path)
     {
@@ -57,17 +76,21 @@ namespace Appl
           case RecorderStatus.Idle:
             StartStopBtn.Content = LocalizationService.StartRecording;
             StatusLbl.Content = LocalizationService.NotRecording;
+            _timeElapsed = TimeSpan.Zero;
             break;
           case RecorderStatus.Recording:
             StartStopBtn.Content = LocalizationService.StopRecording;
             StatusLbl.Content = LocalizationService.Recording;
+            _timer.Start();
             break;
           case RecorderStatus.Paused:
             PauseResumeBtn.Content = LocalizationService.Resume;
             StatusLbl.Content = LocalizationService.Paused;
+            _timer.Stop();
             break;
           case RecorderStatus.Finishing:
             StatusLbl.Content = LocalizationService.Saving;
+            _timer.Stop();
             break;
           default:
             throw new ArgumentOutOfRangeException(nameof(status), status, null);
@@ -78,17 +101,11 @@ namespace Appl
     private void PauseResumeBtnOnClick(object sender, RoutedEventArgs e)
     {
       _isPaused = !_isPaused;
-      
+
       if (_isPaused)
-      {
-        ((Button) sender).Content = "Продолжить";
         _recordService.Pause();
-      }
       else
-      {
-        ((Button) sender).Content = "Приостановить";
         _recordService.Resume();
-      }
     }
 
     private void StartStopBtnOnClick(object sender, RoutedEventArgs e)
@@ -96,7 +113,7 @@ namespace Appl
       if (_recordService.IsRecording)
       {
         _recordService.StopRecord();
-        // _recordService.ReleaseRecorder();
+        _timer.Stop();
       }
       else
       {
