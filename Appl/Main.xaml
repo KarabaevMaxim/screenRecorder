@@ -16,16 +16,13 @@
         <StackPanel Orientation="Horizontal" 
                     Margin="5">
             <Button Name="StartStopBtn" 
-                    Content="Запись" 
                     Margin="5"/>
             
             <Button Name="PauseResumeBtn" 
-                    Content="Пауза" 
                     Margin="5"/>  
         </StackPanel>
         
         <Label Name="StatusLbl" 
-               Content="Запись" 
                Margin="5"/>
     </StackPanel>
 </Window>

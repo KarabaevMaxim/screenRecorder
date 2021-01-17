@@ -1,11 +1,23 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using Appl.Record;
+using ScreenRecorderLib;
 
 namespace Appl
 {
   public partial class Main : Window
   {
+    private const string StartRecording = "Start recording";
+    private const string StopRecording = "Stop recording";
+    private const string Resume = "Resume";
+    private const string Pause = "Pause";
+    
+    private const string NotRecording = "Not recording";
+    private const string Recording = "Recording...";
+    private const string Saving = "Saving file";
+    private const string Paused = "Paused";
+    
     private readonly RecordService _recordService;
     private readonly FileService _fileService;
     private bool _isPaused;
@@ -20,6 +32,11 @@ namespace Appl
       PauseResumeBtn.Click += PauseResumeBtnOnClick;
       _recordService.Completed += RecordServiceOnCompleted;
       _recordService.Failed += RecordServiceOnFailed;
+      _recordService.StatusChanged += RecordServiceOnStatusChanged;
+
+      StartStopBtn.Content = StartRecording;
+      PauseResumeBtn.Content = Pause;
+      StatusLbl.Content = NotRecording;
     }
 
     private void RecordServiceOnCompleted(string path)
@@ -27,7 +44,7 @@ namespace Appl
       Dispatcher.Invoke(() =>
       {
         _recordService.ReleaseRecorder();
-        MessageBox.Show(this, $"Видео сохранено: {path}", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+        MessageBox.Show(this, $"Video saved: {path}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
       });
     }
 
@@ -36,7 +53,34 @@ namespace Appl
       Dispatcher.Invoke(() =>
       {
         _recordService.ReleaseRecorder();
-        MessageBox.Show(this, error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+        MessageBox.Show(this, error, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+      });
+    }
+
+    private void RecordServiceOnStatusChanged(RecorderStatus status)
+    {
+      Dispatcher.Invoke(() =>
+      {
+        switch (status)
+        {
+          case RecorderStatus.Idle:
+            StartStopBtn.Content = StartRecording;
+            StatusLbl.Content = NotRecording;
+            break;
+          case RecorderStatus.Recording:
+            StartStopBtn.Content = StopRecording;
+            StatusLbl.Content = Recording;
+            break;
+          case RecorderStatus.Paused:
+            PauseResumeBtn.Content = Resume;
+            StatusLbl.Content = Paused;
+            break;
+          case RecorderStatus.Finishing:
+            StatusLbl.Content = Saving;
+            break;
+          default:
+            throw new ArgumentOutOfRangeException(nameof(status), status, null);
+        }
       });
     }
 
@@ -60,13 +104,11 @@ namespace Appl
     {
       if (_recordService.IsRecording)
       {
-        ((Button) sender).Content = "Начать запись";
         _recordService.StopRecord();
-        _recordService.ReleaseRecorder();
+        // _recordService.ReleaseRecorder();
       }
       else
       {
-        ((Button) sender).Content = "Завершить запись";
         _recordService.CreateRecorder(new RecordProps
         {
           IsAudioEnabled = App.ConfigService.Config.EnableMicrophone && App.ConfigService.Config.EnableSounds,
