@@ -2,7 +2,7 @@
 using System.IO;
 using Appl.Configuration;
 
-namespace Appl
+namespace Appl.OtherServices
 {
   public class FileService
   {

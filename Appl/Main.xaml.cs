@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using Appl.OtherServices;
 using Appl.Record;
 using ScreenRecorderLib;
 
@@ -8,16 +9,6 @@ namespace Appl
 {
   public partial class Main : Window
   {
-    private const string StartRecording = "Start recording";
-    private const string StopRecording = "Stop recording";
-    private const string Resume = "Resume";
-    private const string Pause = "Pause";
-    
-    private const string NotRecording = "Not recording";
-    private const string Recording = "Recording...";
-    private const string Saving = "Saving file";
-    private const string Paused = "Paused";
-    
     private readonly RecordService _recordService;
     private readonly FileService _fileService;
     private bool _isPaused;
@@ -34,9 +25,9 @@ namespace Appl
       _recordService.Failed += RecordServiceOnFailed;
       _recordService.StatusChanged += RecordServiceOnStatusChanged;
 
-      StartStopBtn.Content = StartRecording;
-      PauseResumeBtn.Content = Pause;
-      StatusLbl.Content = NotRecording;
+      StartStopBtn.Content = LocalizationService.StartRecording;
+      PauseResumeBtn.Content = LocalizationService.Pause;
+      StatusLbl.Content = LocalizationService.NotRecording;
     }
 
     private void RecordServiceOnCompleted(string path)
@@ -64,19 +55,19 @@ namespace Appl
         switch (status)
         {
           case RecorderStatus.Idle:
-            StartStopBtn.Content = StartRecording;
-            StatusLbl.Content = NotRecording;
+            StartStopBtn.Content = LocalizationService.StartRecording;
+            StatusLbl.Content = LocalizationService.NotRecording;
             break;
           case RecorderStatus.Recording:
-            StartStopBtn.Content = StopRecording;
-            StatusLbl.Content = Recording;
+            StartStopBtn.Content = LocalizationService.StopRecording;
+            StatusLbl.Content = LocalizationService.Recording;
             break;
           case RecorderStatus.Paused:
-            PauseResumeBtn.Content = Resume;
-            StatusLbl.Content = Paused;
+            PauseResumeBtn.Content = LocalizationService.Resume;
+            StatusLbl.Content = LocalizationService.Paused;
             break;
           case RecorderStatus.Finishing:
-            StatusLbl.Content = Saving;
+            StatusLbl.Content = LocalizationService.Saving;
             break;
           default:
             throw new ArgumentOutOfRangeException(nameof(status), status, null);
