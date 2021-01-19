@@ -4,6 +4,8 @@
              xmlns:local="clr-namespace:Application"
              StartupUri="UI/Main.xaml">
     <Application.Resources>
-         
+         <ResourceDictionary>
+             <BitmapImage x:Key="TrayIcon" UriSource="/Assets/Icons/TemporarilyTrayIcon.png"/>
+         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -81,6 +81,7 @@ namespace Application.UI
             StartStopBtn.Content = LocalizationService.StopRecording;
             StatusLbl.Content = LocalizationService.Recording;
             _timer.Start();
+            Hide();
             break;
           case RecorderStatus.Paused:
             PauseResumeBtn.Content = LocalizationService.Resume;

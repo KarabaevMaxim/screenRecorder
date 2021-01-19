@@ -3,26 +3,41 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:local="clr-namespace:Application"
         mc:Ignorable="d"
-        Title="Main" Height="450" Width="800">
+        Title="Main" Height="120" Width="200"
+        WindowStyle="SingleBorderWindow"
+        Icon="{StaticResource TrayIcon}">
+    
     <StackPanel Orientation="Vertical">
+        <tb:TaskbarIcon Name="NotifyIcon"
+                        Visibility="Visible"
+                        IconSource="{StaticResource TrayIcon}"
+                        MenuActivation="LeftOrRightClick"
+                        PopupActivation="DoubleClick">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu
+                    Background="LightCoral">
+                    <MenuItem Header="Pause" />
+                    <MenuItem Header="Stop" />
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+        
         <Label Name="TimerLbl" 
                Content="00:00:00" 
-               FontSize="40" 
-               FontStyle="Oblique" 
-               Margin="5"/>
+               FontSize="20" 
+               FontStyle="Oblique"/>
         
-        <StackPanel Orientation="Horizontal" 
-                    Margin="5">
+        <StackPanel Orientation="Horizontal">
             <Button Name="StartStopBtn" 
-                    Margin="5"/>
+                    Margin="5 0 5 0"/>
             
             <Button Name="PauseResumeBtn" 
-                    Margin="5"/>  
+                    Margin="5 0 5 0"/>  
         </StackPanel>
         
-        <Label Name="StatusLbl" 
-               Margin="5"/>
+        <Label Name="StatusLbl" />
     </StackPanel>
 </Window>
