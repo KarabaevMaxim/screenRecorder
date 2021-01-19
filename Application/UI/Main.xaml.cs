@@ -29,7 +29,7 @@ namespace Application.UI
     public Main()
     {
       InitializeComponent();
-      _recordService = new RecordService();
+      _recordService = new RecordService(App.ConfigService);
       _fileService = new FileService(App.ConfigService);
       _timer = new DispatcherTimer();
       _timer.Tick += TimerOnTick;
@@ -81,7 +81,6 @@ namespace Application.UI
             StartStopBtn.Content = LocalizationService.StopRecording;
             StatusLbl.Content = LocalizationService.Recording;
             _timer.Start();
-            Hide();
             break;
           case RecorderStatus.Paused:
             PauseResumeBtn.Content = LocalizationService.Resume;
@@ -108,7 +107,7 @@ namespace Application.UI
         _recordService.Resume();
     }
 
-    private void StartStopBtnOnClick(object sender, RoutedEventArgs e)
+    private async void StartStopBtnOnClick(object sender, RoutedEventArgs e)
     {
       if (_recordService.IsRecording)
       {
@@ -117,17 +116,21 @@ namespace Application.UI
       }
       else
       {
+        _fileService.CreateOutputFolder();
+        await App.ConfigService.ReadSettingsAsync();
         _recordService.CreateRecorder(new RecordProps
         {
-          IsAudioEnabled = App.ConfigService.Config.EnableMicrophone && App.ConfigService.Config.EnableSounds,
-          IsInputDeviceEnabled = App.ConfigService.Config.EnableMicrophone,
-          IsOutputDeviceEnabled = App.ConfigService.Config.EnableSounds,
           AudioInputDevice = "",
-          AudioOutputDevice = ""
-        });
-        
-        _fileService.CreateOutputFolder();
-        _recordService.StartRecord(_fileService.VideoFileName);
+          AudioOutputDevice = "", 
+          Sides = new ScreenSides
+          {
+            Top = 0,
+            Bottom = (int)SystemParameters.PrimaryScreenHeight,
+            Left = 0,
+            Right = (int)SystemParameters.PrimaryScreenWidth
+          }
+        })
+          .StartRecord(_fileService.VideoFileName);
       }
     }
   }

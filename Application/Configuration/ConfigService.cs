@@ -25,10 +25,17 @@ namespace Application.Configuration
       {
         OutputFolderName = "Video",
         EnableMicrophone = false,
-        EnableSounds = true
+        EnableSounds = true,
+        IsHardwareEncodingEnabled = true,
+        IsLowLatencyEnabled = false,
+        IsMp4FastStartEnabled = true,
+        Framerate = 30,
+        Quality = 50,
+        IsMousePointerEnabled = true,
+        IsMouseClicksDetected = true
       };
 
-      var json = JsonConvert.SerializeObject(Config);
+      var json = JsonConvert.SerializeObject(Config, Formatting.Indented);
       File.WriteAllTextAsync(ConfigFileName, json);
     }
   }
