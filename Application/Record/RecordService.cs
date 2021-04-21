@@ -63,7 +63,6 @@ namespace Application.Record
         }
       };
       _recorder = Recorder.CreateRecorder(options);
-      _recorder = Recorder.CreateRecorder();
       _recorder.OnRecordingComplete += (sender, args) => Completed?.Invoke(args.FilePath);
       _recorder.OnRecordingFailed += (sender, args) => Failed?.Invoke(args.Error);
       _recorder.OnStatusChanged += (sender, args) => StatusChanged?.Invoke(args.Status);
