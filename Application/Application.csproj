@@ -10,11 +10,18 @@
         <Configurations>Debug;Release</Configurations>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <PublishTrimmed>true</PublishTrimmed>
-        <TrimMode>link</TrimMode>
-        <SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
-    </PropertyGroup>
+<!--    <ItemGroup>-->
+<!--        <TrimmerRootAssembly Include="System.Runtime" />-->
+<!--        <TrimmerRootAssembly Include="System.Runtime.Extensions" />-->
+<!--        <TrimmerRootAssembly Include="System.Diagnostics.Debug" />-->
+<!--        <TrimmerRootAssembly Include="System.Runtime.CompilerServices" />-->
+<!--    </ItemGroup>-->
+<!--    -->
+<!--    <PropertyGroup>-->
+<!--        <PublishTrimmed>true</PublishTrimmed>-->
+<!--        <TrimMode>link</TrimMode>-->
+<!--        <SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>-->
+<!--    </PropertyGroup>-->
     
     <ItemGroup>
       <PackageReference Include="Hardcodet.NotifyIcon.Wpf.NetCore" Version="1.0.17" />
