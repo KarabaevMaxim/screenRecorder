@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Threading;
 using Application.OtherServices;
@@ -53,7 +55,8 @@ namespace Application.UI
       Dispatcher.Invoke(() =>
       {
         _recordService.ReleaseRecorder();
-        MessageBox.Show(this, $"Video saved: {path}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+        var fullPath = Path.GetFullPath(path);
+        Process.Start("explorer.exe", $"/select,\"{fullPath}\"");
       });
     }
 
@@ -120,8 +123,8 @@ namespace Application.UI
         await App.ConfigService.ReadSettingsAsync();
         _recordService.CreateRecorder(new RecordProps
         {
-          AudioInputDevice = "",
-          AudioOutputDevice = "", 
+          AudioInputDevice = string.Empty,
+          AudioOutputDevice = string.Empty, 
           Sides = new ScreenSides
           {
             Top = 0,
