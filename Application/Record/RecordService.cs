@@ -23,7 +23,9 @@ namespace Application.Record
       
       var options = new RecorderOptions
       {
-        RecorderApi = RecorderApi.DesktopDuplication,
+        RecorderApi = props.WndHandle.HasValue 
+          ? RecorderApi.WindowsGraphicsCapture 
+          : RecorderApi.DesktopDuplication,
         IsHardwareEncodingEnabled = _configService.Config.IsHardwareEncodingEnabled,
         IsLowLatencyEnabled = _configService.Config.IsLowLatencyEnabled,
         IsMp4FastStartEnabled = _configService.Config.IsMp4FastStartEnabled,
@@ -33,7 +35,7 @@ namespace Application.Record
           Bottom = props.Sides.Bottom,
           Left = props.Sides.Left,
           Right = props.Sides.Right,
-          //WindowHandle = props.WndHandle // RecorderApi = RecorderApi.WindowsGraphicsCapture
+          WindowHandle = props.WndHandle ?? IntPtr.Zero
         },
         AudioOptions = new AudioOptions
         {

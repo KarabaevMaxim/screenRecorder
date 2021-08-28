@@ -10,6 +10,6 @@ namespace Application.Record
     
     public ScreenSides Sides { get; init; }
     
-    public IntPtr WndHandle { get; init; }
+    public IntPtr? WndHandle { get; init; }
   }
 }
