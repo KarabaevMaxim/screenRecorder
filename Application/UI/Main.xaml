@@ -6,8 +6,10 @@
         xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:local="clr-namespace:Application"
         mc:Ignorable="d"
-        Title="Main" Height="120" Width="200"
+        Title="Main"
         WindowStyle="SingleBorderWindow"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
         Icon="{StaticResource TrayIcon}">
     
     <StackPanel Orientation="Vertical">
@@ -39,5 +41,14 @@
         </StackPanel>
         
         <Label Name="StatusLbl" />
+        
+        <StatusBar>
+            <StatusBarItem>
+                <Label Content="Screen recorder by @Karabin"
+                       FontSize="11"
+                       FontStyle="Italic"/>
+            </StatusBarItem>
+        </StatusBar>
+        
     </StackPanel>
 </Window>
