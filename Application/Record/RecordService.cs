@@ -35,7 +35,8 @@ namespace Application.Record
           Bottom = props.Sides.Bottom,
           Left = props.Sides.Left,
           Right = props.Sides.Right,
-          WindowHandle = props.WndHandle ?? IntPtr.Zero
+          WindowHandle = props.WndHandle ?? IntPtr.Zero,
+          MonitorDeviceName = props.MonitorName
         },
         AudioOptions = new AudioOptions
         {

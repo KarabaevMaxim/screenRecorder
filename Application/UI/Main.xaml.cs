@@ -2,10 +2,13 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Forms;
+using System.Windows.Interop;
 using System.Windows.Threading;
 using Application.OtherServices;
 using Application.Record;
 using ScreenRecorderLib;
+using MessageBox = System.Windows.MessageBox;
 
 namespace Application.UI
 {
@@ -121,16 +124,20 @@ namespace Application.UI
       {
         _fileService.CreateOutputFolder();
         await App.ConfigService.ReadSettingsAsync();
+
+        var currentScreen = Screen.FromHandle(new WindowInteropHelper(this).Handle);
+        
         _recordService.CreateRecorder(new RecordProps
         {
+          MonitorName = currentScreen.DeviceName,
           AudioInputDevice = string.Empty,
           AudioOutputDevice = string.Empty, 
           Sides = new ScreenSides
           {
-            Top = 0,
-            Bottom = (int)SystemParameters.PrimaryScreenHeight,
-            Left = 0,
-            Right = (int)SystemParameters.PrimaryScreenWidth
+            Top = currentScreen.Bounds.Top,
+            Bottom =  currentScreen.Bounds.Bottom,
+            Left = currentScreen.Bounds.Left,
+            Right = currentScreen.Bounds.Right
           }
         })
           .StartRecord(_fileService.VideoFileName);
